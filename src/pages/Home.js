@@ -3,7 +3,9 @@ import { Button , Box , List , ListItem } from '@mui/material';
 import {FaUserPlus  , FaRegListAlt , FaCashRegister,FaHome  } from "react-icons/fa";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from '@mui/styles';
+import { Link } from "react-router-dom";
 import "./Home.css"
+import { width } from '@mui/system';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -14,11 +16,9 @@ const useStyles = makeStyles(theme => ({
     width: '100%' , 
     backgroundColor: "black"
   },
-  center: {
-    margin: 'auto' ,
-    backgroundColor: "#c46210", 
-    paddingTop: 3 , 
-    paddingBottom: 3   
+  link: {
+    textDecoration: 'none' , 
+    width: '100%'
   }
 
 }))
@@ -45,13 +45,13 @@ function Home(){
         <Box className={classes.paper}>
           <List className={classes.root}>
             <ListItem divider>
-              <CustomButton variant="contained" fullWidth startIcon={<FaUserPlus />}>Register Member</CustomButton>
+              <Link to="/register_member" className={classes.link}><CustomButton variant="contained" fullWidth startIcon={<FaUserPlus />}>Register Member</CustomButton></Link>
             </ListItem>
             <ListItem divider>
-              <CustomButton variant="contained" fullWidth startIcon={<FaRegListAlt />}>Member's List</CustomButton>
+              <Link to="/member_list" className={classes.link}><CustomButton variant="contained" fullWidth startIcon={<FaRegListAlt />}>Member's List</CustomButton></Link>
             </ListItem>
             <ListItem divider>
-              <CustomButton variant="contained" fullWidth startIcon={<FaCashRegister />}>Fee Reminder</CustomButton>
+              <Link to="/fee_reminder" className={classes.link}><CustomButton variant="contained" fullWidth startIcon={<FaCashRegister />}>Fee Reminder</CustomButton></Link>
             </ListItem>
           </List>
         </Box>          
