@@ -1,5 +1,55 @@
-.App {
-  text-align: center;
+:root {
+    --header-height: 3rem;
+    --nav-width: 50px;
+    --first-color: #4723D9;
+    --first-color-light: #AFA5D9;
+    --white-color: #F7F6FB;
+    --orange-color: #c46210 ; 
+    --body-font: 'Nunito', sans-serif;
+    --normal-font-size: 1rem;
+    --z-fixed: 100
+}
+
+.header {
+    width: 100%;
+    height: var(--header-height);
+    position: fixed;
+    top: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: var(--orange-color);
+    z-index: var(--z-fixed);
+    transition: .5s
+}
+
+.menuIcon {
+  cursor: pointer;
+  padding-left: 15px;
+}
+
+.menuIcon:hover{
+ color: white;
+}
+
+.center-div {
+  margin: auto;
+}
+
+.navbar {
+    margin-top: var(--header-height);
+    position: fixed;
+    top: 0;
+    width: var(--nav-width);
+    height: 100vh;
+    background-color: var(--first-color);
+    transition: .5s;
+    
+}
+
+.list-item {
+  list-style: none;
 }
 
 .App-logo {
@@ -14,11 +64,10 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: black;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
