@@ -5,7 +5,6 @@ import { styled } from "@mui/material/styles";
 import { makeStyles } from '@mui/styles';
 import { Link } from "react-router-dom";
 import "./Home.css"
-import { width } from '@mui/system';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -19,6 +18,10 @@ const useStyles = makeStyles(theme => ({
   link: {
     textDecoration: 'none' , 
     width: '100%'
+  }, 
+  imageBorderd: {
+    width: '100%' ,
+    borderRadius: '5px' ,  
   }
 
 }))
@@ -40,10 +43,12 @@ function Home(){
      return (
       <>
     
-    <div className="App">
-      <header className="App-header">
+      <div className="App-header">
         <Box className={classes.paper}>
           <List className={classes.root}>
+            <ListItem divider>
+              <img src='https://mdbootstrap.com/img/new/slides/041.webp' className={classes.imageBorderd} alt='...' />
+            </ListItem>
             <ListItem divider>
               <Link to="/register_member" className={classes.link}><CustomButton variant="contained" fullWidth startIcon={<FaUserPlus />}>Register Member</CustomButton></Link>
             </ListItem>
@@ -55,7 +60,6 @@ function Home(){
             </ListItem>
           </List>
         </Box>          
-      </header>
       </div>
 
       </>

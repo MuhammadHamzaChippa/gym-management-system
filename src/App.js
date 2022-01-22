@@ -1,4 +1,3 @@
-import './App.css';
 import {Grid, Button} from '@mui/material'
 import {FaUserPlus  , FaRegListAlt , FaCashRegister,FaHome  } from "react-icons/fa";
 import { styled } from "@mui/material/styles";
@@ -15,7 +14,8 @@ const useStyles = makeStyles(theme => ({
     backgroundColor: "#c46210", 
     paddingTop: 3 , 
     paddingBottom: 3, 
-    position: 'absolute'  
+    position: 'absolute' , 
+    width: "100%"  
   } , 
   link: {
     textDecoration: 'none'
