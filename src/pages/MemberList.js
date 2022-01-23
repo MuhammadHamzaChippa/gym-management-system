@@ -1,5 +1,5 @@
 import React , {useState , useEffect} from 'react';
-import {Table, Paper, TableHead, TableContainer, TableRow, TableBody , Box} from "@mui/material" ;
+import {Table, Paper, TableHead, TableContainer, TableRow, TableBody , TextField} from "@mui/material" ;
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import {FaUserPlus , FaTrash} from 'react-icons/fa'
 import { makeStyles } from '@mui/styles';
@@ -14,7 +14,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 1200 ,
     margin: 'auto',
     maxHeight: 500 ,  
-    overflowX: 'hidden'
+    
   },
   link: {
     textDecoration: 'none' , 
@@ -29,7 +29,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       color: "#800000"
     }
-  }
+  },
+  
+  
+  
   
 }))
 
@@ -59,6 +62,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function MemberList() {
   const classes = useStyles()
   
+  const [memberSearch , setMemberSearch] = useState("") ;
   const [members , setMembers] = useState([])
   
   useEffect(() => {
@@ -72,8 +76,8 @@ function MemberList() {
 
   return (
       <div class="main-div">
-      <Box className={classes.paper}>
-      <TableContainer component={Paper} >
+
+      <TableContainer component={Paper} className={classes.paper}>
       <Table aria-label="customized table" stickyHeader>
         <TableHead>
           <TableRow>
@@ -90,8 +94,22 @@ function MemberList() {
           </TableRow>
         </TableHead>
         <TableBody >
-          {members.map((member) => (
-            <StyledTableRow key={member.customer_id}>
+          <StyledTableRow>
+            <TableCell align="left" colSpan={10}>
+              <TextField
+                required
+                id="name"
+                value={memberSearch}
+                placeholder='Search Customer'
+                fullWidth
+                onChange={(e) => (setMemberSearch(e.target.value))} 
+                variant="outlined"
+                InputProps={{style: {backgroundColor: 'white'}}}
+              /></TableCell>
+          </StyledTableRow>
+          
+          {members.filter(member => member.name.includes(memberSearch)).map((member) => (
+              <StyledTableRow key={member.customer_id}>
               <TableCell align="center">{member.customer_id}</TableCell>
               <TableCell align="center">{member.name}</TableCell>
               <TableCell align="center">{member.age}</TableCell>
@@ -113,17 +131,22 @@ function MemberList() {
               </TableCell>
             
             </StyledTableRow>
+            
           ))}   
           <TableRow className={classes.registerUserCell} >
-            <TableCell colspan={9} align="center">
+            <TableCell colspan={10} align="center">
               <Link to="/register_member" className={classes.link}><FaUserPlus /></Link>
             </TableCell>
           </TableRow>
         </TableBody>
       </Table>
     </TableContainer>
-    </Box>
-      </div>
+    <Table>
+      <TableHead>
+        
+      </TableHead>
+    </Table>
+    </div>
   );
 }
 
