@@ -13,7 +13,7 @@ const useStyles = makeStyles(theme => ({
   paper: {
     maxWidth: 1200 ,
     margin: 'auto',
-    maxHeight: 400 ,  
+    maxHeight: "80vh" ,  
     
   },
   link: {
