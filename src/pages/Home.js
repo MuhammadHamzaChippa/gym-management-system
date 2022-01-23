@@ -47,7 +47,7 @@ function Home(){
         <Box className={classes.paper}>
           <List className={classes.root}>
             <ListItem divider>
-              <img src='https://mdbootstrap.com/img/new/slides/041.webp' className={classes.imageBorderd} alt='...' />
+              <img src={require('../fitnesspro.png')} className={classes.imageBorderd} alt='...' />
             </ListItem>
             <ListItem divider>
               <Link to="/register_member" className={classes.link}><CustomButton variant="contained" fullWidth startIcon={<FaUserPlus />}>Register Member</CustomButton></Link>
