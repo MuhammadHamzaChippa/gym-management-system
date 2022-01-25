@@ -1,6 +1,7 @@
 import React , {useState } from 'react';
-import {Button, TextField} from '@mui/material'
-import { useAuth , logout, login } from './firebase';
+import {Button, TextField , List, ListItem , Box} from '@mui/material'
+import { useAuth , login } from './firebase';
+import { makeStyles } from '@mui/styles';
 import { styled } from "@mui/material/styles";
 import { Routes, Route} from "react-router-dom";
 import Home from './pages/Home'
@@ -8,6 +9,7 @@ import RegisterMember from './pages/RegisterMember'
 import MemberList from './pages/MemberList';
 import FeeReminder from './pages/FeeReminder';
 import Header from "./component/Header"
+import "./App.css"
 
 
 const CustomButton = styled(Button)`
@@ -18,9 +20,29 @@ const CustomButton = styled(Button)`
     background-color: #c46210; 
     color: white ; 
   } 
-`  
+`
+const useStyles = makeStyles(theme => ({
+  paper: {
+    maxWidth: 300 ,
+    margin: 'auto' 
+  },
+  root: {
+    width: '100%' , 
+    backgroundColor: "black"
+  },
+  link: {
+    textDecoration: 'none' , 
+    width: '100%'
+  }, 
+  imageBorderd: {
+    width: '100%' ,
+    borderRadius: '5px' ,  
+  }
+
+}))  
 
 function App() {
+  const classes = useStyles()
   const [email , setEmail] = useState('')
   const [password , setPassword] = useState('')
   const [loading , setLoading] = useState(false)
@@ -49,25 +71,40 @@ function App() {
         <Route path="member_list" element={<MemberList />} />
         <Route path="fee_reminder" element={<FeeReminder />} />
     </Routes>
+    </div> : 
+    
+    <div class = "login-form">
+    <Box className={classes.paper}>
+       <List className={classes.root}>
+          <ListItem divider>
+              <img src={require('./fitnesspro.png')} className={classes.imageBorderd} alt='...' />
+          </ListItem>
+          <ListItem divider>
+            <TextField
+              id = "email"
+              placeholder ="Email"
+              onChange={(e) => (setEmail(e.target.value))}
+              sx={{height: '100%' , width: "100%"}} 
+            />
+          </ListItem>
+          <ListItem divider>
+            <TextField
+              id = "password"
+              type="password"
+              placeholder="Password"
+              sx={{height: '100%' , width: "100%"}}
+              onChange={(e) => (setPassword(e.target.value))}
+            />
+          </ListItem>
+          <ListItem divider>
+            <CustomButton variant="contained" sx={{height: '100%' , width: "100%"}} onClick={handleLogin}>
+              Log In
+            </CustomButton>
+          </ListItem>
+       </List>
+    </Box>
     </div>
- : <div id = "login-form">
-    <TextField
-      id = "email"
-      placeholder ="Email"
-      onChange={(e) => (setEmail(e.target.value))} 
-    />
-    <TextField
-      id = "password"
-      type="password"
-      placeholder="Password"
-      onChange={(e) => (setPassword(e.target.value))}
-    />
-        
-
-    <CustomButton variant="contained" sx={{height: '100%'}} onClick={handleLogin}>
-        Log In
-    </CustomButton>
-    </div>}
+  }
     
     
     </>
