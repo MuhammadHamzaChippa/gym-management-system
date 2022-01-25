@@ -1,28 +1,14 @@
-import {Grid, Button} from '@mui/material'
-import {FaUserPlus  , FaRegListAlt , FaCashRegister,FaHome  } from "react-icons/fa";
+import React , {useState } from 'react';
+import {Button, TextField} from '@mui/material'
+import { useAuth , logout, login } from './firebase';
 import { styled } from "@mui/material/styles";
-import { makeStyles } from '@mui/styles';
-import { Routes, Route, Link } from "react-router-dom";
+import { Routes, Route} from "react-router-dom";
 import Home from './pages/Home'
 import RegisterMember from './pages/RegisterMember'
 import MemberList from './pages/MemberList';
 import FeeReminder from './pages/FeeReminder';
-import Header from './component/Header';
+import Header from "./component/Header"
 
-const useStyles = makeStyles(theme => ({
-  center: {
-    margin: 'auto' ,
-    backgroundColor: "white", 
-    paddingTop: 3 , 
-    paddingBottom: 3, 
-     
-    width: "40%"  
-  } , 
-  link: {
-    textDecoration: 'none'
-  }
-
-}))
 
 const CustomButton = styled(Button)`
   color: black ;
@@ -35,18 +21,55 @@ const CustomButton = styled(Button)`
 `  
 
 function App() {
-  const classes = useStyles()
+  const [email , setEmail] = useState('')
+  const [password , setPassword] = useState('')
+  const [loading , setLoading] = useState(false)
+
+  const currentUser = useAuth()
+
+  async function handleLogin(){
+    setLoading(true); 
+    try {
+      await login(email , password) ;
+    }
+    catch(error) {
+      alert("Error logging in") ;
+      console.log(error) ;
+    }
+    setLoading(false); 
+  }
   return (
     <>
-    <Header />
-    
+    {currentUser?.email ? 
+    <div>
+      <Header />
     <Routes>
         <Route path="/" element={<Home />} />
         <Route path="register_member" element={<RegisterMember />} />
         <Route path="member_list" element={<MemberList />} />
         <Route path="fee_reminder" element={<FeeReminder />} />
-      </Routes>
+    </Routes>
+    </div>
+ : <div id = "login-form">
+    <TextField
+      id = "email"
+      placeholder ="Email"
+      onChange={(e) => (setEmail(e.target.value))} 
+    />
+    <TextField
+      id = "password"
+      type="password"
+      placeholder="Password"
+      onChange={(e) => (setPassword(e.target.value))}
+    />
+        
 
+    <CustomButton variant="contained" sx={{height: '100%'}} onClick={handleLogin}>
+        Log In
+    </CustomButton>
+    </div>}
+    
+    
     </>
   );
 }

@@ -11,9 +11,10 @@ import "./MemberList.css"
 
 const useStyles = makeStyles(theme => ({
   paper: {
-    maxWidth: 1200 ,
+    maxWidth: "98%" ,
+    minWidth: "80%" ,
     margin: 'auto',
-    maxHeight: "80vh" ,  
+    maxHeight: "70vh" ,  
     
   },
   link: {

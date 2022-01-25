@@ -1,6 +1,7 @@
-import React from 'react';
+import React , {useState} from 'react';
 import { Button , Box , List , ListItem } from '@mui/material'; 
-import {FaUserPlus  , FaRegListAlt , FaCashRegister  } from "react-icons/fa";
+import { logout } from '../firebase';
+import {FaUserPlus  , FaRegListAlt , FaCashRegister,FaArrowLeft  } from "react-icons/fa";
 import { styled } from "@mui/material/styles";
 import { makeStyles } from '@mui/styles';
 import { Link } from "react-router-dom";
@@ -37,8 +38,17 @@ const CustomButton = styled(Button)`
 `  
 
 function Home(){
-
+    const [loading , setLoading] = useState(false)
     const classes = useStyles() ; 
+    async function handleLogout() {
+      setLoading(true);
+      try {
+        await logout();
+      } catch {
+      alert("Error!");
+      }
+    setLoading(false);
+    }
 
      return (
       <>
@@ -57,6 +67,13 @@ function Home(){
             </ListItem>
             <ListItem divider>
               <Link to="/fee_reminder" className={classes.link}><CustomButton variant="contained" fullWidth startIcon={<FaCashRegister />}>Fee Reminder</CustomButton></Link>
+            </ListItem>
+            <ListItem divider>
+              <Link to="/" className={classes.link}>
+                <CustomButton variant="contained" fullWidth startIcon={<FaArrowLeft />} onClick={handleLogout}>
+                  Log Out
+                </CustomButton>
+              </Link>
             </ListItem>
           </List>
         </Box>          

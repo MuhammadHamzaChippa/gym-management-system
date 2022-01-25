@@ -1,11 +1,18 @@
 import React , {useState} from 'react';
 import './RegisterMember.css'
-import {Box, Button, TextField, List, ListItem , Grid , MenuItem ,Snackbar , Alert} from '@mui/material'
+import {FormLabel, Button, TextField, Grid , MenuItem ,Snackbar , Alert} from '@mui/material'
 import { styled } from "@mui/material/styles";
+import { makeStyles } from '@mui/styles';
 import moment from "moment";
 import axios from 'axios';
 import resources from "./resources";
 
+const useStyles = makeStyles(theme => ({ 
+  form: {
+    color: "white" , 
+    marginLeft: 4
+  }
+}))
 
 const CustomButton = styled(Button)`
   color: black ;
@@ -19,6 +26,9 @@ const CustomButton = styled(Button)`
 
 const memberships = ['Standard (Rs 700)' , 'Personal Training (Rs 3000)']
 function RegisterMember() {
+
+  const classes = useStyles()
+
   const [name, setName] = useState('')
   const [age , setAge] = useState()
   const [email , setEmail] = useState('')
@@ -73,49 +83,47 @@ function RegisterMember() {
         }
         
       </Snackbar>
-      <Box >
-      <List  >
-        <ListItem >
-          <Grid container spacing={1} justifyContent="center">
-            <Grid item xs={2}>
-              <TextField
-                required
-                id="name"
-                value={name}
-                placeholder='Name *'
-                fullWidth
-                onChange={(e) => (setName(e.target.value))} 
-                variant="outlined"
-                InputProps={{style: {backgroundColor: 'white'}}}
-              />
-            </Grid>
-            <Grid item xs={1}>
-              <TextField
-                required
-                id="age"
-                value={age}
-                onChange={(e) => setAge(e.target.value)}
-                placeholder="Age *"
-                fullWidth
-                type="number"
-                InputProps={{style: {backgroundColor: 'white'}}}  
-              />
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                id="email"
-                value = {email}
-                onChange= {(e) => setEmail(e.target.value)}
-                placeholder="Email"
-                fullWidth
-                InputProps={{style: {backgroundColor: 'white'}}} 
-              />
-            </Grid>
+      
+      <div class="form">
+        <Grid container spacing={1} justifyContent="center" >
+          <Grid item xs={4}>
+            {/* <FormLabel className={classes.form}>Name</FormLabel> */}
+            <TextField
+              required
+              id="name"
+              value={name}
+              placeholder='Name *'
+              fullWidth
+              onChange={(e) => (setName(e.target.value))} 
+              variant="outlined"
+              InputProps={{style: {backgroundColor: 'white'}}}
+            />
           </Grid>
-        </ListItem>
-
-        <ListItem >
-          <Grid container spacing={1} justifyContent="center">    
+          <Grid item xs={4}>
+            {/* <FormLabel className={classes.form}>Age</FormLabel> */}
+            <TextField
+              required
+              id="age"
+              value={age}
+              onChange={(e) => setAge(e.target.value)}
+              placeholder="Age *"
+              fullWidth
+              type="number"
+              InputProps={{style: {backgroundColor: 'white'}}}  
+            />
+          </Grid>
+          <Grid item xs={4}>
+            {/* <FormLabel className={classes.form}>Email</FormLabel> */}
+            <TextField
+              id="email"
+              value = {email}
+              onChange= {(e) => setEmail(e.target.value)}
+              placeholder="Email"
+              fullWidth
+              InputProps={{style: {backgroundColor: 'white'}}} 
+            />
+          </Grid>
+              
             <Grid item xs={4}>
               <TextField
                 required
@@ -127,7 +135,7 @@ function RegisterMember() {
                 InputProps={{style: {backgroundColor: 'white'}}} 
               />
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
               <TextField
                 required
                 id="cell-no"
@@ -138,12 +146,8 @@ function RegisterMember() {
                 InputProps={{style: {backgroundColor: 'white'}}} 
               />
             </Grid>
-          </Grid>
-        </ListItem>
-
-        <ListItem >
-          <Grid container spacing={1} justifyContent="center">    
-            <Grid item xs={3}>
+             
+            <Grid item xs={4}>
               <TextField
                 select
                 id="membership"
@@ -159,7 +163,7 @@ function RegisterMember() {
                 ))}
               </TextField>
             </Grid>
-            <Grid item xs={2}>
+            <Grid item xs={4}>
              <TextField
                 type="date"
                 id="date-of-admission"
@@ -169,7 +173,16 @@ function RegisterMember() {
                 fullWidth 
               ></TextField>
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={4}>
+              <CustomButton 
+                variant="contained" 
+                fullWidth sx={{height: '100%'}}
+                onClick = {registerCusomter} 
+                >
+                  Upload Image
+              </CustomButton>
+            </Grid>
+            <Grid item xs={4}>
               <CustomButton 
                 variant="contained" 
                 fullWidth sx={{height: '100%'}}
@@ -179,12 +192,7 @@ function RegisterMember() {
               </CustomButton>
             </Grid>
           </Grid>
-        </ListItem>
-
-        
-
-      </List>
-      </Box>
+      </div>
     </div>
   ) 
   
