@@ -60,6 +60,13 @@ function App() {
     }
     setLoading(false); 
   }
+  
+  function handleKeyDown(event) {
+    if(event.keyCode === 13) { 
+        handleLogin()
+  }
+  } 
+
   return (
     <>
     {currentUser?.email ? 
@@ -81,6 +88,7 @@ function App() {
           </ListItem>
           <ListItem divider>
             <TextField
+              InputProps={{style: {backgroundColor: 'white'}}}
               id = "email"
               placeholder ="Email"
               onChange={(e) => (setEmail(e.target.value))}
@@ -90,10 +98,12 @@ function App() {
           <ListItem divider>
             <TextField
               id = "password"
+              InputProps={{style: {backgroundColor: 'white'}}}
               type="password"
               placeholder="Password"
               sx={{height: '100%' , width: "100%"}}
               onChange={(e) => (setPassword(e.target.value))}
+              onKeyDown={handleKeyDown}
             />
           </ListItem>
           <ListItem divider>

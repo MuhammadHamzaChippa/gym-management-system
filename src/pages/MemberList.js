@@ -135,7 +135,7 @@ function MemberList() {
             
           ))}   
           <TableRow className={classes.registerUserCell} >
-            <TableCell colspan={10} align="center">
+            <TableCell colSpan={10} align="center">
               <Link to="/register_member" className={classes.link}><FaUserPlus /></Link>
             </TableCell>
           </TableRow>

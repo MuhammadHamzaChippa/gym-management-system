@@ -9,33 +9,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu';
+import { logout } from '../firebase';
 import React, { useState, useEffect } from "react";
 import {makeStyles} from "@mui/styles"
 import { Link as RouterLink } from "react-router-dom";
-import {FaUserPlus  , FaRegListAlt , FaCashRegister,FaHome  } from "react-icons/fa";
-
-const headersData = [
-  {
-    label: "Home",
-    href: "/",
-    component: <FaHome/>
-  },
-  {
-    label: "Register Member",
-    href: "/register_member",
-    component: <FaUserPlus />
-  },
-  {
-    label: "Member's List",
-    href: "/member_list",
-    component: <FaRegListAlt />
-  },
-  {
-    label: "Fee Reminder",
-    href: "/fee_reminder",
-    component: <FaCashRegister />
-  },
-];
+//import {FaUserPlus  , FaRegListAlt , FaCashRegister,FaHome  } from "react-icons/fa";
 
 const useStyles = makeStyles(() => ({
   header: {
@@ -86,6 +64,50 @@ export default function Header() {
     mobileView: false,
     drawerOpen: false,
   });
+  
+  const [loading , setLoading] = useState(false)
+
+    const headersData = [
+  {
+    label: "Home",
+    href: "/",
+    onClickFn: () => {} ,  
+  },
+  {
+    label: "Register Member",
+    href: "/register_member",
+    onClickFn: () => {} , 
+  },
+  {
+    label: "Member's List",
+    href: "/member_list",
+    onClickFn: () => {} ,
+  },
+  {
+    label: "Fee Reminder",
+    href: "/fee_reminder",
+    onClickFn: () => {} ,
+  },
+  {
+    label: "Fee Reminder",
+    href: "/fee_reminder",
+    onClickFn: () => {} , 
+  },
+  {
+    label: "Log Out" , 
+    href: "/" ,
+    onClickFn: async function handleLogout() {
+      setLoading(true);
+      try {
+        await logout();
+      } catch {
+      alert("Error!");
+      }
+    setLoading(false);
+    }
+  }
+  ];
+
 
   const { mobileView, drawerOpen } = state;
 
@@ -108,7 +130,7 @@ export default function Header() {
   const displayDesktop = () => {
     return (
       <Toolbar className={toolbar}>
-        {femmecubatorLogo}
+        {fitnessProLogo}
         <div>{getMenuButtons()}</div>
       </Toolbar>
     );
@@ -142,13 +164,13 @@ export default function Header() {
           <div className={drawerContainer}>{getDrawerChoices()}</div>
         </Drawer>
 
-        <div>{femmecubatorLogo}</div>
+        <div>{fitnessProLogo}</div>
       </Toolbar>
     );
   };
 
   const getDrawerChoices = () => {
-    return headersData.map(({ label, href }) => {
+    return headersData.map(({ label, href , onClickFn }) => {
       return (
         <Link
           component= {RouterLink}
@@ -157,13 +179,15 @@ export default function Header() {
           style = {{ textDecoration: "none" }}
           key = {label}
         >
-          <MenuItem>{label}</MenuItem>
+          <MenuItem onClick={onClickFn}>{label}</MenuItem>
         </Link>
       );
-    });
+    })
+
+    ;
   };
 
-  const femmecubatorLogo = (
+  const fitnessProLogo = (
     <Typography variant="h6" component="h1" className={logo}>
       FitnessPro
     </Typography>
