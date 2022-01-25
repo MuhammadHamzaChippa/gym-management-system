@@ -7,15 +7,16 @@ import Home from './pages/Home'
 import RegisterMember from './pages/RegisterMember'
 import MemberList from './pages/MemberList';
 import FeeReminder from './pages/FeeReminder';
+import Header from './component/Header';
 
 const useStyles = makeStyles(theme => ({
   center: {
     margin: 'auto' ,
-    backgroundColor: "#c46210", 
+    backgroundColor: "white", 
     paddingTop: 3 , 
     paddingBottom: 3, 
-    position: 'absolute' , 
-    width: "100%"  
+     
+    width: "40%"  
   } , 
   link: {
     textDecoration: 'none'
@@ -37,20 +38,7 @@ function App() {
   const classes = useStyles()
   return (
     <>
-    <Grid className={classes.center} container spacing={1}>
-      <Grid item xs={3}>   
-        <Link to="/" className={classes.link}><CustomButton  startIcon={<FaHome />} fullWidth>Home</CustomButton></Link>
-     </Grid>
-     <Grid item xs={3}>   
-        <Link to="/register_member" className={classes.link}><CustomButton  startIcon={<FaUserPlus />} fullWidth>Register Member</CustomButton></Link>
-     </Grid>
-     <Grid item xs={3}>
-        <Link to="/member_list" className={classes.link}><CustomButton  startIcon={<FaRegListAlt />} fullWidth>Member's List</CustomButton></Link>
-     </Grid>
-     <Grid item xs={3}>
-        <Link to="/fee_reminder" className={classes.link}><CustomButton  startIcon={<FaCashRegister />} fullWidth>Fee Reminder</CustomButton></Link>
-     </Grid>
-    </Grid>   
+    <Header />
     
     <Routes>
         <Route path="/" element={<Home />} />
