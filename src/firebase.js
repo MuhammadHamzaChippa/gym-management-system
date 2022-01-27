@@ -47,7 +47,7 @@ export function useAuth(){
 }
 
 //storage function 
-export function upload(file , setPhotoURL){
+export function upload(file ){
  
 if (!file) return;
 
@@ -59,6 +59,6 @@ if (!file) return;
      console.log(progress)
  } , 
  (err) => console.log(err) , 
- () => {getDownloadURL(uploadTask.snapshot.ref).then((url) => setPhotoURL(url))}
+ () => {getDownloadURL(uploadTask.snapshot.ref).then((url) => console.log(url))}
  )
 }

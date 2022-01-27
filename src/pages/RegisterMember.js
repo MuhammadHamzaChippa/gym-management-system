@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     marginLeft: 4
   } , 
   imageBorderd: {
-
+    height: "30vh", 
     borderRadius: '5px'  
   }
 }))
@@ -53,9 +53,7 @@ function RegisterMember() {
   const [phone , setPhone] = useState(null)
   const [membership, setMembership] = useState('Standard (Rs 700)');
   const [date , setDate] = useState(moment(new Date()).format("YYYY-MM-DD"))
-  const [photURL , setPhotoURL] = useState('https://firebasestorage.googleapis.com/v0/b/fitnessprogym-2fb41.appspot.com/o/anonymous.jpeg?alt=media&token=a98d8377-659c-4b99-8952-b6ab02239f02')
   const [photo , setPhoto] = useState(null)
-
   const [alert , setAlert] = useState(false)
   const [status , setStatus] = useState('')
 
@@ -76,14 +74,18 @@ function RegisterMember() {
   const registerCusomter = () => {
    if(photo){
       console.log("Photo Uploaded")
-      upload(photo ,setPhotoURL)
+      upload(photo)
     }
-      
+    
+  const generate_image_URL = (name) => {
+    return 'https://firebasestorage.googleapis.com/v0/b/fitnessprogym-2fb41.appspot.com/o/' + name + '?alt=media&token=a98d8377-659c-4b99-8952-b6ab02239f02'
+  }
+
     const request = axios.post("https://fitnessprogym.hasura.app/v1/graphql", 
     {
       query: `mutation RegisterUser{
           insert_customers(objects: {address: "${address}", admission_date: "${date}", age: ${age}, cell_no: "${phone}", email: 
-          "${email}", fee_structure: ${membership === "Standard (Rs 700)" ? 700 : 3000}, image_url: "${photURL}", membership_type: ${membership === "Standard (Rs 700)" ? 0 : 1 }, name: "${name}"}) {
+          "${email}", fee_structure: ${membership === "Standard (Rs 700)" ? 700 : 3000}, image_url: "${generate_image_URL(photo.name)}", membership_type: ${membership === "Standard (Rs 700)" ? 0 : 1 }, name: "${name}"}) {
             returning {
               address
               admission_date
@@ -96,17 +98,19 @@ function RegisterMember() {
               membership_type
               name
             }
-  }
-}`
+    }
+    }`
     } , 
     {headers: {"x-hasura-admin-secret": resources.password}})
+    
+    
     setName('')
     setAge('')
     setEmail('')
     setAddress('')
     setPhone('')
     setMembership('Standard (Rs 700)')
-    
+    setPhoto(null)
     setAlert(true)
     setStatus(true)
     }
@@ -126,7 +130,7 @@ function RegisterMember() {
         
       </Snackbar>
       <Stack >
-        <Item><img src={require('../anonymous.jpeg')} className={classes.imageBorderd} alt='...' /></Item>
+        <Item><img src={photo ? URL.createObjectURL(photo) : require('../anonymous.jpeg')} className={classes.imageBorderd} alt='...' /></Item>
         <Item>
           <div class="form">
   
