@@ -2,8 +2,7 @@
 import { useState ,useEffect } from "react";
 import { initializeApp } from "firebase/app";
 import {getAuth, createUserWithEmailAndPassword, onAuthStateChanged , signOut , signInWithEmailAndPassword} from "firebase/auth"
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {getStorage , ref , uploadBytesResumable , getDownloadURL} from "firebase/storage"
 
 // Your web app's Firebase configuration
 // For Firebase JS SDK v7.20.0 and later, measurementId is optional
@@ -21,7 +20,9 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const auth = getAuth();
+const storage = getStorage(app);
 
+// LOG IN RELATED
 export function signup(email, password){
     createUserWithEmailAndPassword(auth, email, password)
 }
@@ -43,4 +44,21 @@ export function useAuth(){
         return unsub
     } , [])
     return currentUser
+}
+
+//storage function 
+export function upload(file , id){
+ 
+if (!file) return;
+
+ const fileRef = ref(storage , id)  
+ const uploadTask = uploadBytesResumable(fileRef, file) ;
+ 
+ uploadTask.on("state_changed", (snapshot) => {
+     const progress = Math.round(snapshot.bytesTransferred / snapshot.totalBytes)*100
+     console.log(progress)
+ } , 
+ (err) => console.log(err) , 
+ () => {getDownloadURL(uploadTask.snapshot.ref).then((url) => console.log(url))}
+ )
 }

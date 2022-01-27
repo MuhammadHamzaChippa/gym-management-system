@@ -83,6 +83,7 @@ function MemberList() {
         <TableHead>
           <TableRow>
             <StyledTableCell align="center">ID</StyledTableCell>
+            <StyledTableCell align="center">Picture</StyledTableCell>
             <StyledTableCell align="center">Name</StyledTableCell>
             <StyledTableCell align="center">Age</StyledTableCell>
             <StyledTableCell align="center">Cell No.</StyledTableCell>
@@ -96,7 +97,7 @@ function MemberList() {
         </TableHead>
         <TableBody >
           <StyledTableRow>
-            <TableCell align="left" colSpan={10}>
+            <TableCell align="left" colSpan={11}>
               <TextField
                 required
                 id="name"
@@ -112,6 +113,7 @@ function MemberList() {
           {members.filter(member => member.name.includes(memberSearch)).map((member) => (
               <StyledTableRow key={member.customer_id}>
               <TableCell align="center">{member.customer_id}</TableCell>
+              <TableCell align="center"><img src={member.image_url} alt='...' /></TableCell>
               <TableCell align="center">{member.name}</TableCell>
               <TableCell align="center">{member.age}</TableCell>
               <TableCell align="center">{member.cell_no}</TableCell>
@@ -135,7 +137,7 @@ function MemberList() {
             
           ))}   
           <TableRow className={classes.registerUserCell} >
-            <TableCell colSpan={10} align="center">
+            <TableCell colSpan={11} align="center">
               <Link to="/register_member" className={classes.link}><FaUserPlus /></Link>
             </TableCell>
           </TableRow>
