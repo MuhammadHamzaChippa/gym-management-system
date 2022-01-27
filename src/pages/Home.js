@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }, 
   imageBorderd: {
     width: '100%' ,
-    borderRadius: '5px' ,  
+    borderRadius: '5px' ,   
   }
 
 }))

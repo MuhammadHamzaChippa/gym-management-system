@@ -53,7 +53,7 @@ function RegisterMember() {
   const [phone , setPhone] = useState(null)
   const [membership, setMembership] = useState('Standard (Rs 700)');
   const [date , setDate] = useState(moment(new Date()).format("YYYY-MM-DD"))
-  const [photURL , setPhotoUrl] = useState('')
+  const [photURL , setPhotoURL] = useState('https://firebasestorage.googleapis.com/v0/b/fitnessprogym-2fb41.appspot.com/o/anonymous.jpeg?alt=media&token=a98d8377-659c-4b99-8952-b6ab02239f02')
   const [photo , setPhoto] = useState(null)
 
   const [alert , setAlert] = useState(false)
@@ -74,23 +74,39 @@ function RegisterMember() {
   }
  
   const registerCusomter = () => {
-    let id = name + Math.floor(Math.random() * 10000)
-    
-    const URL = ('https://fitnessprogym.hasura.app/api/rest/register-user/' + address + "/" + age + "/" + phone + "/" + 
-    id + "/" + email + "/" + ((membership == 'Standard (Rs 700)') ? 700 : 3000) + "/" + 
-    ((membership == 'Standard (Rs 700)') ? 0 : 1 ) + "/" + name)
-    const request = axios.post(URL, 
-    {} , {headers: {"x-hasura-admin-secret": resources.password}})
+   if(photo){
+      console.log("Photo Uploaded")
+      upload(photo ,setPhotoURL)
+    }
+      
+    const request = axios.post("https://fitnessprogym.hasura.app/v1/graphql", 
+    {
+      query: `mutation RegisterUser{
+          insert_customers(objects: {address: "${address}", admission_date: "${date}", age: ${age}, cell_no: "${phone}", email: 
+          "${email}", fee_structure: ${membership === "Standard (Rs 700)" ? 700 : 3000}, image_url: "${photURL}", membership_type: ${membership === "Standard (Rs 700)" ? 0 : 1 }, name: "${name}"}) {
+            returning {
+              address
+              admission_date
+              age
+              cell_no
+              email
+              fee_structure
+              id
+              image_url
+              membership_type
+              name
+            }
+  }
+}`
+    } , 
+    {headers: {"x-hasura-admin-secret": resources.password}})
     setName('')
     setAge('')
     setEmail('')
     setAddress('')
     setPhone('')
     setMembership('Standard (Rs 700)')
-     if(photo){
-      console.log("Photo Uploaded")
-      upload(name, id)
-    }
+    
     setAlert(true)
     setStatus(true)
     }

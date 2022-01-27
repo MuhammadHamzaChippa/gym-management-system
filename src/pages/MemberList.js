@@ -31,8 +31,10 @@ const useStyles = makeStyles(theme => ({
       color: "#800000"
     }
   },
-  
-  
+  imageBorderd: {
+    width: '100%' ,
+    borderRadius: '5px' ,   
+  }
   
   
 }))
@@ -47,9 +49,10 @@ const StyledTableCell = styled(TableCell)(({ theme }) => ({
   },
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(({ theme }) => ({ 
   '&:nth-of-type(odd)': {
     backgroundColor: theme.palette.action.hover,
+    
   },
   // hide last border
   '&:last-child td, &:last-child th': {
@@ -111,9 +114,9 @@ function MemberList() {
           </StyledTableRow>
           
           {members.filter(member => member.name.includes(memberSearch)).map((member) => (
-              <StyledTableRow key={member.customer_id}>
-              <TableCell align="center">{member.customer_id}</TableCell>
-              <TableCell align="center"><img src={member.image_url} alt='...' /></TableCell>
+              <StyledTableRow key={member.id}>
+              <TableCell align="center">{member.id}</TableCell>
+              <TableCell align="center"><img src={member.image_url}  className={classes.imageBorderd} alt='...' /></TableCell>
               <TableCell align="center">{member.name}</TableCell>
               <TableCell align="center">{member.age}</TableCell>
               <TableCell align="center">{member.cell_no}</TableCell>
@@ -121,13 +124,13 @@ function MemberList() {
               <TableCell align="center">{member.address}</TableCell>
               <TableCell align="center">{member.membership_type == 0 ? "Standard" : "Personal Training"}</TableCell>
               <TableCell align="center">{member.membership_type == 0 ? "700/-" : "3000/-"}</TableCell>
-              <TableCell align="center">{member.date_of_admission}</TableCell>
+              <TableCell align="center">{member.admission_date}</TableCell>
               
               <TableCell align="center">
                 <FaTrash 
                   className={classes.trash}
-                  onClick = {() => {setMembers(members.filter(x => x.customer_id !== member.customer_id))
-                                    axios.post("https://fitnessprogym.hasura.app/api/rest/delete-user/" + member.customer_id, 
+                  onClick = {() => {setMembers(members.filter(x => x.id !== member.id))
+                                    axios.post("https://fitnessprogym.hasura.app/api/rest/delete-user/" + member.id, 
                                     {} , {headers: {"x-hasura-admin-secret": resources.password}})}
                   }
                  />

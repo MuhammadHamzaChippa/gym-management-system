@@ -47,11 +47,11 @@ export function useAuth(){
 }
 
 //storage function 
-export function upload(file , id){
+export function upload(file , setPhotoURL){
  
 if (!file) return;
 
- const fileRef = ref(storage , id)  
+ const fileRef = ref(storage , file.name)  
  const uploadTask = uploadBytesResumable(fileRef, file) ;
  
  uploadTask.on("state_changed", (snapshot) => {
@@ -59,6 +59,6 @@ if (!file) return;
      console.log(progress)
  } , 
  (err) => console.log(err) , 
- () => {getDownloadURL(uploadTask.snapshot.ref).then((url) => console.log(url))}
+ () => {getDownloadURL(uploadTask.snapshot.ref).then((url) => setPhotoURL(url))}
  )
 }
