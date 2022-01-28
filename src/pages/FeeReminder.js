@@ -12,7 +12,8 @@ const useStyles = makeStyles(theme => ({
   paper: {
     maxWidth: 1200 ,
     margin: 'auto',
-    maxHeight: 400 ,  
+    maxHeight: 400 , 
+    backgroundColor: "#c46210" 
   },}))
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({

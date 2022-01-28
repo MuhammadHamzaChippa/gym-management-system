@@ -108,7 +108,6 @@ function MemberList() {
 
   const MemberRow = ({member}) => {
     const [photo, setPhoto] = useState(null)
-    const [photoURL , setPhotoURL] = useState(member.image_url)
     
     function handlePhotoChange(e){
     if (e.target.files[0]){
@@ -138,26 +137,23 @@ function MemberList() {
       <StyledTableRow key={member.id}>
               <TableCell align="center">{member.id}</TableCell>
               <TableCell align="center">
-                <img src={photo ? URL.createObjectURL(photo) : photoURL}   className={classes.imageBorderd} alt='...' />
+                <img src={photo ? URL.createObjectURL(photo) : member.image_url}   className={classes.imageBorderd} alt='...' />
                 <label htmlFor="icon-button-file">
                   <Input accept="image/*" id="icon-button-file" type="file" onChange={handlePhotoChange} />
                   <IconButton color="primary" aria-label="upload picture" component="span" >
                     <PhotoCamera className={classes.cameraButton} />
                   </IconButton>
                 </label>
-                <IconButton color="primary" aria-label="upload picture" component="span" onClick={updatePhoto}>
+                {photo ? <IconButton color="primary" aria-label="upload picture" component="span" onClick={updatePhoto}>
                     <FileUploadIcon className={classes.cameraButton} />
-                </IconButton>
+                </IconButton> : ""}
               </TableCell>
               <TableCell align="center">{member.name}</TableCell>
               <TableCell align="center">{member.age}</TableCell>
               <TableCell align="center">{member.cell_no}</TableCell>
-              <TableCell align="center">{member.email}</TableCell>
               <TableCell align="center">{member.address}</TableCell>
               <TableCell align="center">{member.membership_type == 0 ? "Standard" : "Personal Training"}</TableCell>
               <TableCell align="center">{member.membership_type == 0 ? "700/-" : "3000/-"}</TableCell>
-              <TableCell align="center">{member.fee_status ? <span style={{color: "green"}}>Fee Paid</span> : 
-              <CustomButtonRed>Unpaid</CustomButtonRed>}</TableCell>
               <TableCell align="center">{member.admission_date}</TableCell>
               
               <TableCell align="center">
@@ -179,7 +175,7 @@ function MemberList() {
       <div class="main-div">
 
       <TableContainer component={Paper} className={classes.paper}>
-      <Table aria-label="customized table" stickyHeader>
+      <Table aria-label="customized table" >
         <TableHead>
           <TableRow sx={{backgroundColor: "#c46210"}}>
             <StyledTableCell align="center">ID</StyledTableCell>
@@ -187,11 +183,9 @@ function MemberList() {
             <StyledTableCell align="center">Name</StyledTableCell>
             <StyledTableCell align="center">Age</StyledTableCell>
             <StyledTableCell align="center">Cell No.</StyledTableCell>
-            <StyledTableCell align="center">Email</StyledTableCell>
             <StyledTableCell align="center">Address</StyledTableCell>
             <StyledTableCell align="center">Membership Type</StyledTableCell>
             <StyledTableCell align="center">Fee</StyledTableCell>
-            <StyledTableCell align="center">Fee Status</StyledTableCell>
             <StyledTableCell align="center">Date of Admission</StyledTableCell>
             <StyledTableCell align="center">Delete</StyledTableCell>
           </TableRow>

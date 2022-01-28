@@ -89,11 +89,6 @@ export default function Header() {
     onClickFn: () => {} ,
   },
   {
-    label: "Fee Reminder",
-    href: "/fee_reminder",
-    onClickFn: () => {} , 
-  },
-  {
     label: "Log Out" , 
     href: "/" ,
     onClickFn: async function handleLogout() {

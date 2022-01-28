@@ -48,7 +48,6 @@ function RegisterMember() {
 
   const [name, setName] = useState(null)
   const [age , setAge] = useState(null)
-  const [email , setEmail] = useState(null)
   const [address , setAddress] = useState(null)
   const [phone , setPhone] = useState(null)
   const [membership, setMembership] = useState('Standard (Rs 700)');
@@ -84,14 +83,13 @@ function RegisterMember() {
     const request = axios.post("https://fitnessprogym.hasura.app/v1/graphql", 
     {
       query: `mutation RegisterUser{
-          insert_customers(objects: {address: "${address}", admission_date: "${date}", age: ${age}, cell_no: "${phone}", email: 
-          "${email}", fee_structure: ${membership === "Standard (Rs 700)" ? 700 : 3000}, image_url: "${generate_image_URL(photo.name)}", membership_type: ${membership === "Standard (Rs 700)" ? 0 : 1 }, name: "${name}"}) {
+          insert_customers(objects: {address: "${address}", admission_date: "${date}", age: ${age}, cell_no: "${phone}", fee_structure: ${membership === "Standard (Rs 700)" ? 700 : 3000}, image_url: "${photo ? generate_image_URL(photo.name) :
+          'https://firebasestorage.googleapis.com/v0/b/fitnessprogym-2fb41.appspot.com/o/anonymous.jpeg?alt=media&token=a98d8377-659c-4b99-8952-b6ab02239f02'}", membership_type: ${membership === "Standard (Rs 700)" ? 0 : 1 }, name: "${name}"}) {
             returning {
               address
               admission_date
               age
               cell_no
-              email
               fee_structure
               id
               image_url
@@ -106,7 +104,6 @@ function RegisterMember() {
     
     setName('')
     setAge('')
-    setEmail('')
     setAddress('')
     setPhone('')
     setMembership('Standard (Rs 700)')
@@ -160,17 +157,6 @@ function RegisterMember() {
               fullWidth
               type="number"
               InputProps={{style: {backgroundColor: 'white'}}}  
-            />
-          </Grid>
-          <Grid item xs={4}>
-            {/* <FormLabel className={classes.form}>Email</FormLabel> */}
-            <TextField
-              id="email"
-              value = {email}
-              onChange= {(e) => setEmail(e.target.value)}
-              placeholder="Email"
-              fullWidth
-              InputProps={{style: {backgroundColor: 'white'}}} 
             />
           </Grid>
               
@@ -235,7 +221,7 @@ function RegisterMember() {
             </Grid>
             <Grid item xs={4}>
               <CustomButton
-                disabled={(! (name && age && email && address && phone))}
+                disabled={(! (name && age && address && phone))}
                 variant="contained" 
                 fullWidth sx={{height: '100%'}}
                 onClick = {registerCusomter} 
