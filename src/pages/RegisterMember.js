@@ -221,7 +221,7 @@ function RegisterMember() {
             </Grid>
             <Grid item xs={4}>
               <CustomButton
-                disabled={(! (name && age && address && phone))}
+                disabled={(! (name && age ))}
                 variant="contained" 
                 fullWidth sx={{height: '100%'}}
                 onClick = {registerCusomter} 
