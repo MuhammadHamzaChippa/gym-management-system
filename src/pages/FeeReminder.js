@@ -1,10 +1,9 @@
 import React , {useState , useEffect} from 'react';
-import {Table, Paper, TableHead, TableContainer, TableRow, TableBody} from "@mui/material" ;
+import {Table, Paper, TableHead, TableContainer, TableRow, TableBody, Button} from "@mui/material" ;
 import { styled } from "@mui/material/styles";
 import { makeStyles } from '@mui/styles';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import resources from './resources';
-import moment from "moment";
 import axios from 'axios';
 import './FeeReminder.css'
 
@@ -13,7 +12,6 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 1200 ,
     margin: 'auto',
     maxHeight: 400 , 
-    backgroundColor: "#c46210" 
   },}))
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -38,35 +36,50 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
+const CustomButton = styled(Button)`
+  color: black ;
+  text-transform: none ; 
+  background-color: #c46210  ;
+  :hover {
+    background-color: #c46210; 
+    color: white ; 
+  } 
+`
 
 function FeeReminder() {
   const classes = useStyles()
-  const [members , setMembers] = useState([])
+  const [feeReminders , setFeeReminders] = useState([])
+
+  const submitFee = (id) => {
+    const submitFeeRequest = axios.post("https://fitnessprogym.hasura.app/api/rest/update-fee-reminder/"+ id + "/" + true , {} , {headers: {"x-hasura-admin-secret": resources.password}})
+    setFeeReminders(feeReminders.filter(feeReminder => feeReminder.transaction_id !== id))
+    alert("Fee Submitted")
+  }
+  const FeeRow = ({feeReminder}) => { 
+    const [feeStatus , setFeeStatus] = useState(feeReminder.feeStatus)
+
+    return(
+      <StyledTableRow key={feeReminder.transaction_id}>
+              <TableCell align="center">{feeReminder.id}</TableCell>
+              <TableCell align="center">{feeReminder.customer_name}</TableCell>
+              <TableCell align="center">{feeReminder.due_date}</TableCell>
+              <TableCell align="center">{feeReminder.fee}</TableCell>
+              <TableCell align="center">
+                <CustomButton onClick={() => submitFee(feeReminder.transaction_id)}>Submit Fee</CustomButton>
+                </TableCell>
+      </StyledTableRow>
+    )
+  } 
   
   useEffect(() => {
     async function fetchValues(){
-      const membersRequest = await axios.get("https://fitnessprogym.hasura.app/api/rest/get-customers", {headers: {"x-hasura-admin-secret": resources.password}})
-      setMembers(membersRequest.data.customers)
+      const membersRequest = await axios.get("https://fitnessprogym.hasura.app/api/rest/fee-reminders", {headers: {"x-hasura-admin-secret": resources.password}})
+      setFeeReminders(membersRequest.data.transactions)
     }
 
     fetchValues()
   } , [])
 
-  const todayDate = moment(new Date()).format("YYYY-MM-DD")
-  const year = todayDate.slice(0,4)
-  const month = todayDate.slice(5,7)
-  const day = todayDate.slice(8)
-
-  const filteredMembers = members.filter(member => {
-    let admissionDate = member.date_of_admission
-    let admissionDay = admissionDate.slice(8)
-    if(admissionDay === day && admissionDate !== todayDate){
-      return member
-    }
-  })
-  
-  console.log("Members" , members)
-  console.log("Filtered Members" , filteredMembers)
 
   return (
     <div class = "main-div">
@@ -74,28 +87,22 @@ function FeeReminder() {
         <Table aria-label="customized table" stickyHeader>
           <TableHead>
             <TableRow>
-              {filteredMembers.len > 0 ?
-              <> 
-              <StyledTableCell align="center">ID</StyledTableCell>
+              <StyledTableCell align="center">Customer ID</StyledTableCell>
               <StyledTableCell align="center">Name</StyledTableCell>
-              <StyledTableCell align="center">Date of Admission</StyledTableCell>
               <StyledTableCell align="center">Due Date</StyledTableCell>
-              </>  
-              :
-              <StyledTableCell align="center" colSpan={4}>No Fee Reminder</StyledTableCell>  
-              }
+              <StyledTableCell align="center">Fee</StyledTableCell>
+              <StyledTableCell align="center">Fee Status</StyledTableCell>
             </TableRow>
-            
-             {filteredMembers.map((member) => (
-              <StyledTableRow key={member.customer_id}>
-              <TableCell align="center">{member.customer_id}</TableCell>
-              <TableCell align="center">{member.name}</TableCell>
-              <TableCell align="center">{member.date_of_admission}</TableCell>
-              <TableCell align="center">{member.date_of_admission.slice(0,4)}-{month}-{member.date_of_admission.slice(8)}</TableCell>
-            </StyledTableRow>
-          ))}
-
           </TableHead>
+            
+          <TableBody>
+            
+          {feeReminders.map((feeReminder) => (
+            <FeeRow feeReminder={feeReminder} />
+          ))} 
+          </TableBody>
+
+          
         </Table>
       </TableContainer>
     </div>
