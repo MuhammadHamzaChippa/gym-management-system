@@ -61,4 +61,5 @@ if (!file) return;
  (err) => console.log(err) , 
  () => {getDownloadURL(uploadTask.snapshot.ref).then((url) => console.log(url))}
  )
+ alert("Picture Uploaded")
 }

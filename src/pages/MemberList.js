@@ -5,7 +5,7 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import PhotoCamera from '@mui/icons-material/PhotoCamera';
 import FileUploadIcon from '@mui/icons-material/FileUpload';
-import {FaUserPlus , FaTrash} from 'react-icons/fa'
+import {FaUserPlus , FaTrash , FaEdit ,FaMoneyBill} from 'react-icons/fa'
 import { makeStyles } from '@mui/styles';
 import { styled } from "@mui/material/styles";
 import { Link } from "react-router-dom";
@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
       color: "#c46210"
     }
   },
-  trash: {
+  icons: {
     color: 'black', 
     '&:hover': {
       color: "#800000"
@@ -154,10 +154,15 @@ function MemberList() {
               <TableCell align="center">{member.membership_type == 0 ? "Standard" : "Personal Training"}</TableCell>
               <TableCell align="center">{member.membership_type == 0 ? "700/-" : "3000/-"}</TableCell>
               <TableCell align="center">{member.admission_date}</TableCell>
-              
+              <TableCell align="center">
+                <FaMoneyBill className={classes.icons}/>
+              </TableCell>
+              <TableCell align="center">
+                <FaEdit className={classes.icons}/>
+              </TableCell>
               <TableCell align="center">
                 <FaTrash 
-                  className={classes.trash}
+                  className={classes.icons}
                   onClick = {() => {setMembers(members.filter(x => x.id !== member.id))
                                     axios.post("https://fitnessprogym.hasura.app/api/rest/delete-user/" + member.id, 
                                     {} , {headers: {"x-hasura-admin-secret": resources.password}})}
@@ -185,12 +190,14 @@ function MemberList() {
             <StyledTableCell align="center">Membership Type</StyledTableCell>
             <StyledTableCell align="center">Fee</StyledTableCell>
             <StyledTableCell align="center">Date of Admission</StyledTableCell>
+            <StyledTableCell align="center">Fee History</StyledTableCell>
+            <StyledTableCell align="center">Edit</StyledTableCell>
             <StyledTableCell align="center">Delete</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody >
           <StyledTableRow>
-            <TableCell align="left" colSpan={12}>
+            <TableCell align="left" colSpan={14}>
               <TextField
                 required
                 id="name"
@@ -208,7 +215,7 @@ function MemberList() {
               <MemberRow member={member} />
                 )})}   
           <TableRow className={classes.registerUserCell} >
-            <TableCell colSpan={12} align="center">
+            <TableCell colSpan={14} align="center">
               <Link to="/register_member" className={classes.link}><FaUserPlus /></Link>
             </TableCell>
           </TableRow>
