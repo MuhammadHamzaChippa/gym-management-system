@@ -135,7 +135,6 @@ function MemberList() {
 
     return (
       <StyledTableRow key={member.id}>
-              <TableCell align="center">{member.id}</TableCell>
               <TableCell align="center">
                 <img src={photo ? URL.createObjectURL(photo) : member.image_url}   className={classes.imageBorderd} alt='...' />
                 <label htmlFor="icon-button-file">
@@ -178,7 +177,6 @@ function MemberList() {
       <Table aria-label="customized table" >
         <TableHead>
           <TableRow sx={{backgroundColor: "#c46210"}}>
-            <StyledTableCell align="center">ID</StyledTableCell>
             <StyledTableCell align="center">Picture</StyledTableCell>
             <StyledTableCell align="center">Name</StyledTableCell>
             <StyledTableCell align="center">Age</StyledTableCell>
