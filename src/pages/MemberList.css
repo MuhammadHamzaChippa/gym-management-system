@@ -8,3 +8,13 @@
     color: white;
 }
 
+.total {
+    height: 45px;
+    width: 45px;
+    background-color: #c46210;
+    text-align: center;
+    border-radius: 50%;
+    color: white;
+    display: table-cell;
+    vertical-align: middle;
+}
